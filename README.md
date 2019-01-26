@@ -9,7 +9,7 @@ import time
 
 #start listening for usb device change events
 #you may have to unplug the flashdrive and replug
-usbdev.startListener()
+observer = usbdev.startListener()
 
 while 1:
     time.sleep(1)
@@ -29,6 +29,8 @@ while 1:
     print("dev: " + str(device))
     print("path: " + str(path))
     print("---------------------------------")
+    
+stopListener(observer)
 ```
 
 Example output:
