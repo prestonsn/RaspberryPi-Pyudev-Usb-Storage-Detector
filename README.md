@@ -19,7 +19,7 @@ while 1:
 
     #get some identification data 
     #returns a dict with keys UUID, SERID (for serial ID), 
-    #VENDOR (the manufacturer), FSTYPE (file system), MODEL (the model).
+    #VENDOR (the manufacturer), FSTYPE (file system), MODEL (the model), DEVPATH for the path under ~/dev.
     device = usbdev.getDevData()
 
     #get the path (currently set for Rpi, can be changed)
