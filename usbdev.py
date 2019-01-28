@@ -8,8 +8,10 @@ USBDEV_VENDOR = None
 USBDEV_SERID = None
 USBDEV_FSTYPE = None
 USBDEV_MODEL = None
+USBDEV_DEVPATH = None
 
-USBDEV_HAVEDATA = True
+USBDEV_HAVEDATA = False
+
 
 
 #callback when a usb device is plugged in
@@ -20,6 +22,7 @@ def usbEventCallback(action, device):
     global USBDEV_SERID
     global USBDEV_FSTYPE
     global USBDEV_MODEL
+    global USBDEV_DEVPATH
 
 
     global USBDEV_HAVEDATA
@@ -31,6 +34,8 @@ def usbEventCallback(action, device):
         USBDEV_UUID = device.get('ID_FS_UUID')
         USBDEV_FSTYPE = device.get('ID_FS_TYPE')
         USBDEV_MODEL = device.get('ID_MODEL')
+        USBDEV_DEVPATH = device.get('DEVNAME')
+
         USBDEV_HAVEDATA = True
 
     elif action == 'remove':
@@ -40,6 +45,7 @@ def usbEventCallback(action, device):
         USBDEV_UUID = None
         USBDEV_FSTYPE = None
         USBDEV_MODEL = None
+        USBDEV_DEVPATH = None
         USBDEV_HAVEDATA = False
 
 
@@ -68,24 +74,42 @@ def getDevData():
         global USBDEV_SERID
         global USBDEV_FSTYPE
         global USBDEV_MODEL
+        global USBDEV_DEVPATH
         return {'UUID': USBDEV_UUID,
                'SERID': USBDEV_SERID, 
                'VENDOR': USBDEV_VENDOR, 
                'FSTYPE': USBDEV_FSTYPE,
-               'MODEL': USBDEV_MODEL}
+               'MODEL': USBDEV_MODEL,
+               'DEVPATH': USBDEV_DEVPATH}
     return None
 
-def stopListening(observer):
+def stopListener(observer):
     observer.stop()
 
 
 #returns the accesible path of the device on the Raspberry pi
 #you can change how the path gets calulated.
 def getMountPathUsbDevice():
-    global USBDEV_UUID
-    if not isDeviceConnected() or USBDEV_UUID == None:
+    global USBDEV_DEVPATH
+    if not isDeviceConnected() or USBDEV_DEVPATH == None:
         return None
     
-    path = os.path.join("~/../../media/pi/", USBDEV_UUID)
-    return path
+    ###path = os.path.join("~/../../media/pi/", USBDEV_UUID)
+    #check if the dev path exists
+    if os.path.exists(USBDEV_DEVPATH):
+
+        #create a mount directory
+        if not os.path.exists('mp'):
+            os.makedirs('mp')
+
+        #mount the dev path to the folder
+        os.system("mount " + USBDEV_DEVPATH + " mp")
+
+        #return the path to the folder from root
+        truePath = os.getcwd() + '/mp'
+
+        return truePath
+
+    return None
+
 
