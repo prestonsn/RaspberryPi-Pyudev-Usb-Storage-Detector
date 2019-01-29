@@ -93,8 +93,7 @@ def getMountPathUsbDevice():
     global USBDEV_DEVPATH
     if not isDeviceConnected() or USBDEV_DEVPATH == None:
         return None
-    
-    ###path = os.path.join("~/../../media/pi/", USBDEV_UUID)
+   
     #check if the dev path exists
     if os.path.exists(USBDEV_DEVPATH):
 
