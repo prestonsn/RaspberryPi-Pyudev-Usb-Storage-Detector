@@ -30,7 +30,7 @@ while 1:
     print("path: " + str(path))
     print("---------------------------------")
     
-stopListener(observer)
+usbdev.stopListener(observer)
 ```
 
 Example output:
