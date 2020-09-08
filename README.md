@@ -1,5 +1,5 @@
 # RaspberryPi-Pyudev-Usb-Storage-Detector
-A module to find a USB storage device on the Raspberry Pi which includes methods to get the mount directory and other information from the USB device. Since this is a wrapper over pyudev, pyudev must first be installed.
+A lightweight module to find a USB storage device on the Raspberry Pi which includes methods to get the mount directory and other information from the USB device. Since this is a wrapper over pyudev, pyudev must first be installed.
 
 Example Usage:
 ```Python
